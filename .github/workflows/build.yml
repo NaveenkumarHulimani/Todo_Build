@@ -1,0 +1,40 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main  # or the branch you want to deploy from
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'  # Set this to the Node.js version you are using
+
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./client
+
+    - name: Build the app
+      run: npm run build
+      working-directory: ./client
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: ./client/build
+
+    - name: Deploy
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "Deploy step (e.g., to a hosting service or server) here."
+        # You can use actions or scripts to deploy your app
