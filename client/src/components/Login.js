@@ -3,3 +3,5 @@ let Login=()=>{
         I am Login
     </div>
 }
+
+export default Login
